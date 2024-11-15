@@ -1,0 +1,32 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container mt-5">
+    <h2>Welcome, <%= user.firstName %> <%= user.lastName %></h2>
+    
+    <h3 class="mt-4">Your Events</h3>
+    <% if (events.length > 0) { %>
+        <div class="row">
+            <% events.forEach(event => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= event.title %></h5>
+                            <p class="card-text"><%= event.description %></p>
+                            <div class="btn-group">
+                                <a href="/events/<%= event._id %>" class="btn btn-primary">View</a>
+                                <a href="/events/<%= event._id %>/edit" class="btn btn-warning">Edit</a>
+                                <form action="/events/<%= event._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <p>You haven't created any events yet.</p>
+    <% } %>
+</div>
+
+<%- include('../partials/footer.ejs') %> 
