@@ -5,8 +5,6 @@ const methodOverride = require('method-override')
 const eventRoutes = require('./routes/eventRoutes')
 const mongoose = require('mongoose')
 require('dotenv').config()
-const session = require('express-session');
-const userRoutes = require('./routes/userRoutes');
 
 
 // create app
@@ -34,17 +32,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('tiny'))
 app.use(methodOverride('_method'))
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false
-}));
 
-// Make user data available to all templates
-app.use((req, res, next) => {
-    res.locals.user = req.session.userId;
-    next();
-});
 
 // set up routes
 // home page
@@ -74,7 +62,6 @@ app.get('/signup', (req, res) => {
 
 // middleware for events pages
 app.use('/events', eventRoutes)
-app.use('/', userRoutes)
 
 // error handling
 app.use((req, res, next) => {
