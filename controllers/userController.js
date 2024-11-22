@@ -9,10 +9,10 @@ exports.postSignUp = async (req, res) => {
         const { firstName, lastName, email, password } = req.body;
         const user = new User({ firstName, lastName, email, password });
         await user.save();
-        req.session.userId = user._id; // Log in user after registration
-        res.redirect('/profile');
+        req.session.successMessage = 'Registration successful! Please log in.';
+        res.redirect('/login');
     } catch (error) {
-        if (error.code === 11000) { // Duplicate email error
+        if (error.code === 11000) {
             res.render('user/signup', { error: 'Email already exists' });
         } else {
             res.render('user/signup', { error: error.message });
@@ -34,7 +34,8 @@ exports.postLogin = async (req, res) => {
         }
 
         req.session.userId = user._id;
-        res.redirect('/profile');
+        req.session.successMessage = 'Successfully logged in!';
+        res.redirect('/');
     } catch (error) {
         res.render('user/login', { error: error.message });
     }
@@ -51,6 +52,10 @@ exports.getProfile = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-    req.session.destroy();
-    res.redirect('/');
+    req.session.destroy(err => {
+        if(err) {
+            console.log(err);
+        }
+        res.redirect('/login');
+    });
 }; 

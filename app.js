@@ -43,6 +43,15 @@ app.use(session({
 // Make user data available to all templates
 app.use((req, res, next) => {
     res.locals.user = req.session.userId;
+    
+    // Flash messages
+    res.locals.successMessage = req.session.successMessage;
+    res.locals.errorMessage = req.session.errorMessage;
+    
+    // Clear flash messages after displaying them
+    delete req.session.successMessage;
+    delete req.session.errorMessage;
+    
     next();
 });
 
@@ -60,16 +69,6 @@ app.get('/about', (req, res) => {
 // contact page
 app.get('/contact', (req, res) => {
     res.render('contact')
-})
-
-// login page
-app.get('/login', (req, res) => {
-    res.render('login')
-})
-
-// signup page
-app.get('/signup', (req, res) => {
-    res.render('signup')
 })
 
 // middleware for events pages

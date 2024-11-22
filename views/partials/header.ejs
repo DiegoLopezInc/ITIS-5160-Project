@@ -17,14 +17,51 @@
         <div class="header-content">
             <img src="/images/ColorStack_UNC-Charlotte_Logo.png" alt="Logo" id="logo">
             <nav id="user-navigation">
-                <a id="login" href="/login">Login</a>
-                <a id="signup" href="/signup">Signup</a>
-            </nav>
+        <div class="container">
+            <a class="navbar-brand" href="/">Events</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events">All Events</a>
+                    </li>
+                    <% if (locals.user) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/events/new">New Event</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/signup">Sign Up</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
         </div>
-        <nav id="main-navigation">
-            <a href="/">Home</a>
-            <a href="/events">Events</a>
-            <a href="/events/new">Create Event</a>
-        </nav>
-    </header>
-    <main>
+    </nav>
+
+    <% if (locals.successMessage) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= successMessage %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+
+    <% if (locals.errorMessage) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= errorMessage %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <% } %>
+</body>
+</html>
