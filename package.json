@@ -10,5 +10,15 @@
     "mongoose": "^8.8.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1"
+  },
+  "scripts": {
+    "test": "jest --setupFiles ./tests/setup.js",
+    "test:watch": "jest --watch --setupFiles ./tests/setup.js",
+    "test:coverage": "jest --coverage --setupFiles ./tests/setup.js"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "mongodb-memory-server": "^8.0.0",
+    "supertest": "^6.0.0"
   }
 }

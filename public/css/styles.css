@@ -300,3 +300,96 @@ footer ul {
 .event-detail .btn {
     margin-top: 1rem;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .events-list {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    #logo {
+        height: 60px;
+    }
+}
+
+/* Improved Form Styling */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #005035;
+    box-shadow: 0 0 5px rgba(0, 80, 53, 0.2);
+}
+
+/* Password Strength Indicator */
+.password-strength {
+    margin-top: 0.5rem;
+    padding: 0.25rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.strength-1 { background-color: #ffebee; color: #c62828; }
+.strength-2 { background-color: #fff3e0; color: #ef6c00; }
+.strength-3 { background-color: #f1f8e9; color: #558b2f; }
+.strength-4 { background-color: #e8f5e9; color: #2e7d32; }
+.strength-5 { background-color: #e0f2f1; color: #00695c; }
+
+/* Loading States */
+.loading {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #005035;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Improved Button States */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Improved Card Hover Effects */
+.event-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
