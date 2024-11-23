@@ -6,7 +6,6 @@ const Schema = mongoose.Schema
 const eventSchema = new Schema({
   title: { type: String, required: [true, 'title is required'] },
   category: { type: String, required: [true, 'category is required'], enum: ['professional', 'social'] },
-  organizer: { type: String, required: [true, 'organizer is required'] },
   host: { type: Schema.Types.ObjectId, ref: 'User', required: [true, 'Host is required'] },
   startDateTime: { type: Date, required: [true, 'startDateTime is required'] },
   endDateTime: { type: Date, required: [true, 'endDateTime is required'] },
