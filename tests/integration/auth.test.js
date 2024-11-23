@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../../app');
 const User = require('../../models/user');
+const { describe, it, expect, beforeEach } = require('@jest/globals');
 
 describe('Authentication Tests', () => {
     describe('POST /users', () => {

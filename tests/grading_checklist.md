@@ -1,92 +1,34 @@
 # Project Grading Checklist
 
-## 1. MVC Pattern Implementation ✓
-- [ ] Model
-  - [ ] Test User model validation
-  - [ ] Test Event model validation
-  - [ ] Test model relationships (User-Event)
+## Testing Setup Instructions
+1. Install Testing Dependencies:
+```
+npm install --save-dev jest supertest mongodb-memory-server
+```
+2. Verify package.json Test Scripts
 
-- [ ] View
-  - [ ] Test all view templates render correctly
-  - [ ] Test view data population
-  - [ ] Test error message display
+3. Running Tests:
+```
+npm test
+Run tests in watch mode (tests re-run when files change)
+npm run test:watch
+Run tests with coverage report
+npm run test:coverage
+Run specific test files
+npm test tests/integration/auth.test.js
+npm test tests/unit/models/user.test.js
+Watch mode with specific test file
+npm run test:watch -- tests/integration/auth.test.js
+```
 
-- [ ] Controller
-  - [ ] Test user controller functions
-  - [ ] Test event controller functions
-  - [ ] Test error handling
+## Debug tests
+npm test -- --detectOpenHandles # Find hanging connections
+npm test -- --verbose # Show detailed output
 
-## 2. User Integration ✓
-- [ ] User Model
-  - [ ] Test required fields validation
-  - [ ] Test email uniqueness
-  - [ ] Test password hashing
-
-- [ ] User Operations
-  - [ ] Test user registration
-  - [ ] Test user login
-  - [ ] Test user profile view
-  - [ ] Test user logout
-
-## 3. Event-User Association ✓
-- [ ] Event Creation
-  - [ ] Test event creation with host
-  - [ ] Test event validation
-  - [ ] Test event-user relationship
-
-- [ ] Event Management
-  - [ ] Test event editing by owner
-  - [ ] Test event deletion by owner
-  - [ ] Test unauthorized edit attempts
-  - [ ] Test unauthorized delete attempts
-
-## 4. Authorization ✓
-- [ ] Guest Access
-  - [ ] Test landing page access
-  - [ ] Test about page access
-  - [ ] Test contact page access
-  - [ ] Test events page access
-  - [ ] Test event detail page access
-
-- [ ] Guest Restrictions
-  - [ ] Test signup page access
-  - [ ] Test login page access
-  - [ ] Test profile page restriction
-  - [ ] Test event creation restriction
-
-- [ ] User Access
-  - [ ] Test profile page access
-  - [ ] Test event creation
-  - [ ] Test own event management
-  - [ ] Test logout functionality
-
-## 5. Navigation ✓
-- [ ] Dynamic Nav Bar
-  - [ ] Test guest navigation options
-  - [ ] Test user navigation options
-  - [ ] Test user name display
-  - [ ] Test responsive design
-
-## 6. Flash Messages ✓
-- [ ] Success Messages
-  - [ ] Test registration success
-  - [ ] Test login success
-  - [ ] Test event creation success
-  - [ ] Test event modification success
-
-- [ ] Error Messages
-  - [ ] Test validation errors
-  - [ ] Test authentication errors
-  - [ ] Test authorization errors
-  - [ ] Test database errors
-
-## 7. Database Requirements ✓
-- [ ] MongoDB Atlas
-  - [ ] Test database connection
-  - [ ] Test data persistence
-  - [ ] Test relationship queries
-
-- [ ] Test Accounts
-  - [ ] Verify test user accounts exist
-  - [ ] Test account credentials work
-  - [ ] Verify required events exist 
+## Testing Tips
+1. Always run tests before committing changes
+2. Check test coverage regularly
+3. Write tests for new features before implementation
+4. Keep test descriptions clear and specific
+5. Test both success and failure cases
+6. Test edge cases and boundary conditions

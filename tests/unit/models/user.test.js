@@ -1,5 +1,6 @@
-const User = require('../../../models/user');
 const mongoose = require('mongoose');
+const User = require('../../models/user');
+const { describe, it, expect, beforeEach } = require('@jest/globals');
 
 describe('User Model Test', () => {
     it('should validate a valid user', async () => {
