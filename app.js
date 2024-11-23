@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const session = require('express-session');
 const userRoutes = require('./routes/userRoutes');
+const errorHandler = require('./middlewares/errorHandler');
 
 // create app
 const app = express()
@@ -74,23 +75,9 @@ app.get('/contact', (req, res) => {
 app.use('/events', eventRoutes)
 app.use('/', userRoutes)
 
-// error handling
-app.use((req, res, next) => {
-    let err = new Error(`The server cannot locate ${req.url}`)
-    err.status = 404
+// 404 error handler
+app.use(errorHandler.notFound);
 
-    next(err)
-})
-
-app.use((err, req, res, next) => {
-    console.log(err.stack)
-
-    if (!err.status) {
-        err.status = 500
-        err.message = 'Internal server error'
-    }
-
-    res.status(err.status)
-    res.render('error', { error: err })
-})
+// Error handler
+app.use(errorHandler.handleError);
 

@@ -1,14 +1,8 @@
-<%- include('./partials/header.ejs', { title: 'Error' }) %>
-<section id="error-content">
-    <h1>Oops! Something went wrong</h1>
-    <% if (typeof error !== 'undefined') { %>
-        <p>Error: <%= error.message %></p>
-        <% if (process.env.NODE_ENV === 'development') { %>
-            <pre><%= error.stack %></pre>
-        <% } %>
-    <% } else { %>
-        <p>An unexpected error occurred. Please try again later.</p>
-    <% } %>
-    <a href="/" class="button">Return to Home</a>
-</section>
-<%- include('./partials/footer.ejs') %>
+<%- include('./partials/header.ejs')%>
+    <main>
+        <div class="error-container">
+            <h2>Error <%= error.status %></h2>
+            <p><%= error.message %></p>
+        </div>
+    </main>
+<%- include('./partials/footer.ejs')%>

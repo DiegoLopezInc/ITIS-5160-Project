@@ -168,3 +168,20 @@ footer ul {
     background-color: #FFFFFF;
     color: white;
 }
+
+.error-container {
+    text-align: center;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.error-container h2 {
+    color: #dc3545;
+    margin-bottom: 1rem;
+}
+
+.error-container p {
+    color: #666;
+    font-size: 1.1rem;
+}
