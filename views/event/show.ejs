@@ -1,31 +1,25 @@
 <%- include('../partials/header.ejs')%>
+<!-- MVC Pattern: View -->
+<!-- This file handles the presentation layer -->
+
 <main>
+    <!-- Display data received from Controller -->
     <div class="event-detail">
         <h2><%= event.title %></h2>
-        <% if (successMessages && successMessages.length > 0) { %>
-            <div class="success-messages">
-                <% successMessages.forEach(message => { %>
-                    <p class="success"><%= message %></p>
-                <% }); %>
-            </div>
-        <% } %>
-        <img src="<%= event.image %>" alt="<%= event.title %>">
-        <p><strong>Category:</strong> <%= event.category %></p>
-        <p><strong>Host:</strong> <%= event.host.firstName %> <%= event.host.lastName %></p>
-        <p><strong>Date:</strong> <%= event.startDateTime.toLocaleDateString() %></p>
-        <p><strong>Time:</strong> <%= event.startDateTime.toLocaleTimeString() %> - <%= event.endDateTime.toLocaleTimeString() %></p>
-        <p><strong>Location:</strong> <%= event.location %></p>
-        <p><strong>Description:</strong> <%= event.description %></p>
         
+        <!-- View handles presentation of Model data -->
+        <p><strong>Host:</strong> <%= event.host.firstName %> <%= event.host.lastName %></p>
+        
+        <!-- View contains presentation logic -->
         <% if(user && user.id === event.host._id.toString()) { %>
             <div class="event-actions">
+                <!-- View sends user actions back to Controller -->
                 <a href="/events/<%= event._id %>/edit" class="btn">Edit</a>
-                <form action="/events/<%= event._id %>?_method=DELETE" method="POST" class="inline-form">
+                <form action="/events/<%= event._id %>?_method=DELETE" method="POST">
                     <button type="submit" class="btn delete">Delete</button>
                 </form>
             </div>
         <% } %>
-        <a href="/events" class="btn">Back to Events</a>
     </div>
 </main>
 <%- include('../partials/footer.ejs')%> 

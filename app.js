@@ -1,48 +1,25 @@
-// require models
-const express = require('express')
-const morgan = require('morgan')
-const methodOverride = require('method-override')
-const eventRoutes = require('./routes/eventRoutes')
+// MVC Pattern: Application Entry Point
+// This file serves as the main configuration point connecting all MVC components
+
+// Model-related imports
 const mongoose = require('mongoose')
-require('dotenv').config()
-const session = require('express-session');
-const userRoutes = require('./routes/userRoutes');
-const errorHandler = require('./middlewares/errorHandler');
-const flash = require('connect-flash');
 
-// create app
-const app = express()
-
-// configure app
-let port = 3000
-let host = 'localhost'
-let url = process.env.HL_MONGODB_URL
+// View engine setup
 app.set('view engine', 'ejs')
 
-// Keep just the mongoose connection:
-mongoose.connect(url)
-    .then(() => {
-        console.log('Connected to MongoDB Atlas!');
-        // start server
-        app.listen(port, host, () => {
-            console.log(`Server is running at ${host}:${port}`)
-        })
-    })
-    .catch(err => console.log(err.message))
+// Controller-related imports
+const eventRoutes = require('./routes/eventRoutes')
+const userRoutes = require('./routes/userRoutes')
 
-// mount middleware
+// Middleware Stack
+// These middleware functions process requests before they reach controllers
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('tiny'))
 app.use(methodOverride('_method'))
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(flash());
 
-// Make user data available to all templates
+// View-related Middleware
+// Makes data available to all views
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
     res.locals.successMessages = req.flash('success');
@@ -50,29 +27,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// set up routes
-// home page
-app.get('/', (req, res) => {
-    res.render('index')
-})
-
-// about page
-app.get('/about', (req, res) => {
-    res.render('about')
-})
-
-// contact page
-app.get('/contact', (req, res) => {
-    res.render('contact')
-})
-
-// middleware for events pages
-app.use('/events', eventRoutes)
-app.use('/', userRoutes)
-
-// 404 error handler
-app.use(errorHandler.notFound);
-
-// Error handler
-app.use(errorHandler.handleError);
+// Route/Controller Integration
+app.use('/events', eventRoutes)  // Routes for event-related controllers
+app.use('/', userRoutes)         // Routes for user-related controllers
 
