@@ -8,10 +8,8 @@ require('dotenv').config()
 const session = require('express-session');
 const userRoutes = require('./routes/userRoutes');
 
-
 // create app
 const app = express()
-
 
 // configure app
 let port = 3000
@@ -19,9 +17,10 @@ let host = 'localhost'
 let url = process.env.HL_MONGODB_URL
 app.set('view engine', 'ejs')
 
-// connect to mongo
+// Keep just the mongoose connection:
 mongoose.connect(url)
     .then(() => {
+        console.log('Connected to MongoDB Atlas!');
         // start server
         app.listen(port, host, () => {
             console.log(`Server is running at ${host}:${port}`)

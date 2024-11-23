@@ -17,51 +17,35 @@
         <div class="header-content">
             <img src="/images/ColorStack_UNC-Charlotte_Logo.png" alt="Logo" id="logo">
             <nav id="user-navigation">
-        <div class="container">
-            <a class="navbar-brand" href="/">Events</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/events">All Events</a>
-                    </li>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events">All Events</a></li>
                     <% if (locals.user) { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/events/new">New Event</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
+                        <li><a href="/events/new">New Event</a></li>
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/logout">Logout</a></li>
                     <% } else { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/signup">Sign Up</a>
-                        </li>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/signup">Sign Up</a></li>
                     <% } %>
                 </ul>
+            </nav>
+        </div>
+
+        <% if (locals.successMessage) { %>
+            <div class="alert alert-success">
+                <%= successMessage %>
+                <button type="button" class="close-alert">&times;</button>
             </div>
-        </div>
-    </nav>
+        <% } %>
 
-    <% if (locals.successMessage) { %>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= successMessage %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <% } %>
-
-    <% if (locals.errorMessage) { %>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <%= errorMessage %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <% } %>
+        <% if (locals.errorMessage) { %>
+            <div class="alert alert-danger">
+                <%= errorMessage %>
+                <button type="button" class="close-alert">&times;</button>
+            </div>
+        <% } %>
+    </header>
+    <main>
 </body>
 </html>

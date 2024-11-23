@@ -4,6 +4,9 @@ body {
   margin: 0;
   padding: 0;
   background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* logo styles */
@@ -16,7 +19,7 @@ body {
 
 /* navigation styles */
 #user-navigation {
-  background-color: #333;
+  background-color: #A49665;
   color: white;
   padding: 10px 20px;
   text-align: right;
@@ -26,8 +29,8 @@ body {
 }
 
 #user-navigation a {
-  background-color: #333;
-  color: #246a26;
+  background-color: #A49665;
+  color: #FFFFFF;
   text-align: center;
   padding: 15px 15px;
   margin-top: 20px;
@@ -37,11 +40,11 @@ body {
 }
 
 #user-navigation a#login {
-  background-color: #333;
-  border-color: #246a26;
+  background-color: #A49665;
+  border-color: #FFFFFF;
   border-width: 1px;
   border-style: solid;
-  color: #246a26;
+  color: #FFFFFF;
   text-align: center;
   padding: 15px 15px;
   margin-top: 20px;
@@ -49,12 +52,12 @@ body {
 }
 
 #user-navigation a#login:hover {
-  background-color: #3a3;
+  background-color: #FFFFFF;
   color: white;
 }
 
 #user-navigation a#signup {
-  background-color: #3a3;
+  background-color: #FFFFFF;
   color: white;
   text-align: center;
   padding: 15px 15px;
@@ -73,14 +76,14 @@ body {
 }
 
 #main-navigation {
-  background-color: #3a3;
+  background-color: #FFFFFF;
   text-align: left;
   padding: 15px 20px;
 }
 
 /* Header styles */
 header {
-  background-color: #333;
+  background-color: #005035;
 }
 
 .header-content {
@@ -92,6 +95,7 @@ header {
 
 /* main sytles*/
 main {
+  flex: 1;
   padding: 20px;
   /* this is so so */
   min-height: calc(100vh - 19.4em);
@@ -99,16 +103,15 @@ main {
 
 h1,
 h2 {
-  color: #333;
+  color: #005035;
 }
 
 /* footer styles */
 footer {
-  background-color: #333;
-  color: #246a26;
+  background-color: #005035;
+  color: #FFFFFF;
   text-align: center;
   padding: 15px 0;
-  margin-top: 20px;
   display: flex;
   justify-content: left;
   align-items: center;
@@ -119,7 +122,7 @@ footer p {
 }
 
 footer a {
-  color: #246a26;
+  color: #FFFFFF;
   margin-left: 15px;
   text-decoration: none;
 }
@@ -127,4 +130,41 @@ footer a {
 footer ul {
   margin-left: auto;
   margin-right: 1.50em;
+}
+
+/* Navigation styles */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-links li a:hover {
+    background-color: #A49665;
+}
+
+/* Special styling for Sign up and Login buttons */
+.nav-links li:nth-last-child(2) a {  /* Sign up */
+    background-color: #FFFFFF;
+    color: white;
+}
+
+.nav-links li:last-child a {  /* Login */
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+}
+
+.nav-links li:last-child a:hover {
+    background-color: #FFFFFF;
+    color: white;
 }
