@@ -17,14 +17,35 @@
         <div class="header-content">
             <img src="/images/ColorStack_UNC-Charlotte_Logo.png" alt="Logo" id="logo">
             <nav id="user-navigation">
-                <a id="login" href="/login">Login</a>
-                <a id="signup" href="/signup">Signup</a>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/events">All Events</a></li>
+                    <% if (locals.user) { %>
+                        <li><a href="/events/new">New Event</a></li>
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/signup">Sign Up</a></li>
+                    <% } %>
+                </ul>
             </nav>
         </div>
-        <nav id="main-navigation">
-            <a href="/">Home</a>
-            <a href="/events">Events</a>
-            <a href="/events/new">Create Event</a>
-        </nav>
+
+        <% if (locals.successMessage) { %>
+            <div class="alert alert-success">
+                <%= successMessage %>
+                <button type="button" class="close-alert">&times;</button>
+            </div>
+        <% } %>
+
+        <% if (locals.errorMessage) { %>
+            <div class="alert alert-danger">
+                <%= errorMessage %>
+                <button type="button" class="close-alert">&times;</button>
+            </div>
+        <% } %>
     </header>
     <main>
+</body>
+</html>

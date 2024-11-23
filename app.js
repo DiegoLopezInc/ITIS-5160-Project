@@ -5,11 +5,11 @@ const methodOverride = require('method-override')
 const eventRoutes = require('./routes/eventRoutes')
 const mongoose = require('mongoose')
 require('dotenv').config()
-
+const session = require('express-session');
+const userRoutes = require('./routes/userRoutes');
 
 // create app
 const app = express()
-
 
 // configure app
 let port = 3000
@@ -17,9 +17,10 @@ let host = 'localhost'
 let url = process.env.HL_MONGODB_URL
 app.set('view engine', 'ejs')
 
-// connect to mongo
+// Keep just the mongoose connection:
 mongoose.connect(url)
     .then(() => {
+        console.log('Connected to MongoDB Atlas!');
         // start server
         app.listen(port, host, () => {
             console.log(`Server is running at ${host}:${port}`)
@@ -32,7 +33,26 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('tiny'))
 app.use(methodOverride('_method'))
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false
+}));
 
+// Make user data available to all templates
+app.use((req, res, next) => {
+    res.locals.user = req.session.userId;
+    
+    // Flash messages
+    res.locals.successMessage = req.session.successMessage;
+    res.locals.errorMessage = req.session.errorMessage;
+    
+    // Clear flash messages after displaying them
+    delete req.session.successMessage;
+    delete req.session.errorMessage;
+    
+    next();
+});
 
 // set up routes
 // home page
@@ -50,18 +70,9 @@ app.get('/contact', (req, res) => {
     res.render('contact')
 })
 
-// login page
-app.get('/login', (req, res) => {
-    res.render('login')
-})
-
-// signup page
-app.get('/signup', (req, res) => {
-    res.render('signup')
-})
-
 // middleware for events pages
 app.use('/events', eventRoutes)
+app.use('/', userRoutes)
 
 // error handling
 app.use((req, res, next) => {
