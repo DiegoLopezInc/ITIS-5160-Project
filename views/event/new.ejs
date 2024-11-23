@@ -1,0 +1,48 @@
+<%- include('../partials/header.ejs')%>
+<main>
+    <div class="form-container">
+        <h2>Create New Event</h2>
+        <% if (errorMessages && errorMessages.length > 0) { %>
+            <div class="error-messages">
+                <% errorMessages.forEach(message => { %>
+                    <p class="error"><%= message %></p>
+                <% }); %>
+            </div>
+        <% } %>
+        <form action="/events" method="POST">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="professional">Professional</option>
+                    <option value="social">Social</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="startDateTime">Start Date & Time</label>
+                <input type="datetime-local" id="startDateTime" name="startDateTime" required>
+            </div>
+            <div class="form-group">
+                <label for="endDateTime">End Date & Time</label>
+                <input type="datetime-local" id="endDateTime" name="endDateTime" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">Image URL</label>
+                <input type="url" id="image" name="image" required>
+            </div>
+            <button type="submit" class="btn">Create Event</button>
+        </form>
+    </div>
+</main>
+<%- include('../partials/footer.ejs')%> 
