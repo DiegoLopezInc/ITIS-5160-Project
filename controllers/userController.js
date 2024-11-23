@@ -1,61 +1,78 @@
 const User = require('../models/user');
+const Event = require('../models/event');
+const bcrypt = require('bcrypt');
 
-exports.getSignUp = (req, res) => {
-    res.render('user/signup');
+exports.new = (req, res) => {
+    return res.render('./user/new');
 };
 
-exports.postSignUp = async (req, res) => {
+exports.create = async (req, res, next) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
-        const user = new User({ firstName, lastName, email, password });
-        await user.save();
-        req.session.successMessage = 'Registration successful! Please log in.';
-        res.redirect('/login');
-    } catch (error) {
-        if (error.code === 11000) {
-            res.render('user/signup', { error: 'Email already exists' });
+        let user = new User(req.body);
+        user = await user.save();
+        req.flash('success', 'Registration successful! Please login.');
+        res.redirect('/users/login');
+    } catch(err) {
+        if(err.name === 'ValidationError') {
+            req.flash('error', err.message);
+            return res.redirect('/users/new');
+        }
+        if(err.code === 11000) {
+            req.flash('error', 'Email address has already been used');
+            return res.redirect('/users/new');
+        }
+        next(err);
+    }
+};
+
+exports.getUserLogin = (req, res) => {
+    return res.render('./user/login');
+};
+
+exports.login = async (req, res, next) => {
+    try {
+        let {email, password} = req.body;
+        if (email && password) {
+            let user = await User.findOne({ email });
+            if (user) {
+                let result = await bcrypt.compare(password, user.password);
+                if(result) {
+                    req.session.user = {id: user._id, firstName: user.firstName};
+                    req.flash('success', 'You have successfully logged in');
+                    return res.redirect('/users/profile');
+                } else {
+                    req.flash('error', 'Wrong password');
+                    return res.redirect('/users/login');
+                }
+            } else {
+                req.flash('error', 'Wrong email address');
+                return res.redirect('/users/login');
+            }
         } else {
-            res.render('user/signup', { error: error.message });
+            req.flash('error', 'Email and password are required');
+            return res.redirect('/users/login');
         }
+    } catch(err) {
+        next(err);
     }
 };
 
-exports.getLogin = (req, res) => {
-    res.render('user/login');
-};
-
-exports.postLogin = async (req, res) => {
+exports.profile = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        
-        if (!user || !(await user.comparePassword(password))) {
-            return res.render('user/login', { error: 'Invalid email or password' });
-        }
-
-        req.session.userId = user._id;
-        req.session.successMessage = 'Successfully logged in!';
-        res.redirect('/');
-    } catch (error) {
-        res.render('user/login', { error: error.message });
+        let user = await User.findById(req.session.user.id);
+        let events = await Event.find({host: user._id});
+        return res.render('./user/profile', {user, events});
+    } catch(err) {
+        next(err);
     }
 };
 
-exports.getProfile = async (req, res) => {
-    try {
-        const user = await User.findById(req.session.userId);
-        const events = await Event.find({ author: req.session.userId });
-        res.render('user/profile', { user, events });
-    } catch (error) {
-        res.redirect('/login');
-    }
-};
-
-exports.logout = (req, res) => {
+exports.logout = (req, res, next) => {
     req.session.destroy(err => {
         if(err) {
-            console.log(err);
+            next(err);
+        } else {
+            res.redirect('/');
         }
-        res.redirect('/login');
     });
 }; 

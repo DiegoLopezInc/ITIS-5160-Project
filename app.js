@@ -8,6 +8,7 @@ require('dotenv').config()
 const session = require('express-session');
 const userRoutes = require('./routes/userRoutes');
 const errorHandler = require('./middlewares/errorHandler');
+const flash = require('connect-flash');
 
 // create app
 const app = express()
@@ -39,19 +40,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(flash());
 
 // Make user data available to all templates
 app.use((req, res, next) => {
-    res.locals.user = req.session.userId;
-    
-    // Flash messages
-    res.locals.successMessage = req.session.successMessage;
-    res.locals.errorMessage = req.session.errorMessage;
-    
-    // Clear flash messages after displaying them
-    delete req.session.successMessage;
-    delete req.session.errorMessage;
-    
+    res.locals.user = req.session.user;
+    res.locals.successMessages = req.flash('success');
+    res.locals.errorMessages = req.flash('error');
     next();
 });
 
