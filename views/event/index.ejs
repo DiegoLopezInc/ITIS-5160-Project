@@ -1,25 +1,65 @@
-<%- include('../partials/header.ejs', { title: 'Events - ColorStack at UNC Charlotte', extraCSS: ['eventsList'] }) %>
-  <h1>Events</h1>
-
-    <div id="events">
-    <% if (events.length) { %>
-      <% categories.forEach(cat => { %>
-        <h2><%= cat.charAt(0).toUpperCase() + cat.slice(1) %> Events</h2>
-        <br />
-        <% events.filter(event => event.category === cat).forEach(event => { %>
-          <div class="event-card <%= event.category %>">
-            <h2><%= event.title %></h2>
-            <p class="category"><%= new Date(event.startDateTime).toLocaleString() %></p>
-            <p><%= event.description %></p>
-            <a class="learn-more" href="./events/<%= event.id %>">Learn More!</a>
-          </div>
-        <% }) %>
-        <% if (events.filter(event => event.category === cat).length % 2 === 1) { %>
-          <br />
+<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" href="/css/events.css">
+<div class="events-container">
+    <h1 class="page-title">Events</h1>
+    
+    <% if (typeof events !== 'undefined' && events && events.length > 0) { %>
+        <% if (typeof categories !== 'undefined' && categories && categories.length > 0) { %>
+            <% categories.forEach(category => { %>
+                <% if (category) { %>
+                    <% const categoryEvents = events.filter(event => event && event.category === category); %>
+                    <% if (categoryEvents.length > 0) { %>
+                        <section class="category-section">
+                            <h2 class="category-title"><%= category.charAt(0).toUpperCase() + category.slice(1) %> Events</h2>
+                            <div class="events-grid">
+                                <% categoryEvents.forEach(event => { %>
+                                    <% if (event) { %>
+                                        <div class="event-card">
+                                            <div class="event-image">
+                                                <img src="<%= event.image %>" 
+                                                     alt="<%= event.location || 'UNCC Campus' %>"
+                                                     loading="lazy">
+                                            </div>
+                                            <div class="event-content">
+                                                <h3 class="event-title"><%= event.title %></h3>
+                                                <% if (event.host && event.host.firstName && event.host.lastName) { %>
+                                                    <p class="event-host">
+                                                        <i class="fas fa-user"></i>
+                                                        <%= event.host.firstName %> <%= event.host.lastName %>
+                                                    </p>
+                                                <% } %>
+                                                <p class="event-datetime">
+                                                    <i class="fas fa-calendar"></i>
+                                                    <%= new Date(event.startDateTime).toLocaleDateString('en-US', {
+                                                        weekday: 'short',
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }) %>
+                                                </p>
+                                                <p class="event-location">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <%= event.location %>
+                                                </p>
+                                                <p class="event-description"><%= event.description.length > 100 ? 
+                                                    event.description.substring(0, 100) + '...' : 
+                                                    event.description %></p>
+                                                <a href="/events/<%= event._id %>" class="event-button">Learn More</a>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                <% }); %>
+                            </div>
+                        </section>
+                    <% } %>
+                <% } %>
+            <% }); %>
+        <% } else { %>
+            <p class="no-events">No event categories found. <% if (locals.user) { %><a href="/events/new">Create an event!</a><% } %></p>
         <% } %>
-      <% }) %>
     <% } else { %>
-      <h2>No Events Found</h2>
+        <p class="no-events">No events found. <% if (locals.user) { %><a href="/events/new">Create one!</a><% } %></p>
     <% } %>
-  </div>
+</div>
 <%- include('../partials/footer.ejs') %>

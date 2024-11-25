@@ -1,11 +1,26 @@
-<%- include('./partials/header.ejs', { title: 'ColorStack at UNC Charlotte' }) %>
-  <section id="introduction">
-    <h1>Welcome to The ColorStack at UNC Charlotte Connections site</h1>
+<%- include('./partials/header.ejs') %>
 
-    <p>Attend our eventsand create connections with other students and faculty at UNC Charlotte. Post internship opening or personal development opportunities</p>
+<div class="home-container">
+    <h1>Welcome to ColorStack UNC Charlotte</h1>
+    
+    <% if (successMessages && successMessages.length > 0) { %>
+        <div class="success-messages">
+            <% successMessages.forEach(message => { %>
+                <p class="success"><%= message %></p>
+            <% }); %>
+        </div>
+    <% } %>
 
-    <br>
+    <div class="home-content">
+        <p>Join our community and explore upcoming events!</p>
+        <% if (!user) { %>
+            <div class="cta-buttons">
+                <a href="/users/new" class="btn">Sign Up</a>
+                <a href="/users/login" class="btn">Login</a>
+            </div>
+        <% } %>
+        <a href="/events" class="btn">View Events</a>
+    </div>
+</div>
 
-    <p>Check out the <a href="/events">Events</a> section to browse available events!</p>
-  </section>
 <%- include('./partials/footer.ejs') %>

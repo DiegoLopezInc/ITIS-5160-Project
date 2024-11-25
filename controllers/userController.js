@@ -3,7 +3,7 @@ const Event = require('../models/event');
 const bcrypt = require('bcrypt');
 
 exports.new = (req, res) => {
-    return res.render('./user/new');
+    return res.render('./user/new', { title: 'Sign Up' });
 };
 
 exports.create = async (req, res, next) => {
@@ -26,18 +26,21 @@ exports.create = async (req, res, next) => {
 };
 
 exports.getUserLogin = (req, res) => {
-    return res.render('./user/login');
+    return res.render('./user/login', { title: 'Login' });
 };
 
 exports.login = async (req, res, next) => {
     try {
+        console.log('Login attempt - Body:', req.body);
         let {email, password} = req.body;
         if (email && password) {
             let user = await User.findOne({ email });
+            console.log('Found user:', user);
             if (user) {
                 let result = await bcrypt.compare(password, user.password);
                 if(result) {
                     req.session.user = {id: user._id, firstName: user.firstName};
+                    console.log('Session after login:', req.session);
                     req.flash('success', 'You have successfully logged in');
                     return res.redirect('/users/profile');
                 } else {
@@ -53,6 +56,7 @@ exports.login = async (req, res, next) => {
             return res.redirect('/users/login');
         }
     } catch(err) {
+        console.error('Login error:', err);
         next(err);
     }
 };
@@ -61,7 +65,7 @@ exports.profile = async (req, res, next) => {
     try {
         let user = await User.findById(req.session.user.id);
         let events = await Event.find({host: user._id});
-        return res.render('./user/profile', {user, events});
+        return res.render('./user/profile', { title: 'Profile', user, events });
     } catch(err) {
         next(err);
     }

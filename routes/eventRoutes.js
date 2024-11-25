@@ -1,32 +1,28 @@
 // require modules
 const express = require('express')
 const controller = require('../controllers/eventController')
-const { fileUpload } = require('../middleware/fileUpload')
+const { fileUpload } = require('../middlewares/fileUpload')
+const { isLoggedIn, isAuthor } = require('../middlewares/auth')
+const { validateId } = require('../middlewares/validator')
 
 // set up router
 const router = express.Router()
 
-// GET /events: send all events
+// Public routes
 router.get('/', controller.index)
 
-// GET /events/new: send html form for creating new event
-router.get('/new', controller.new)
+// Protected routes - specific routes first
+router.get('/new', isLoggedIn, controller.new)
+router.post('/', isLoggedIn, fileUpload, controller.create)
 
-// POST /events: create a new event
-router.post('/', fileUpload, controller.create)
+// GET /events/fix-images
+router.get('/fix-images', controller.fixAllEventImages);
 
-// GET /events/:id: send details about event id
-router.get('/:id', controller.show)
-
-// GET /events/:id/edit: send html form for editing existing event
-router.get('/:id/edit', controller.edit)
-
-// PUT /events/:id: update event id
-router.put('/:id', fileUpload, controller.update)
-
-// DELETE /events/:id: delete event id
-router.delete('/:id', controller.delete)
-
+// Routes with parameters
+router.get('/:id', validateId, controller.show)
+router.get('/:id/edit', validateId, isLoggedIn, isAuthor, controller.edit)
+router.put('/:id', validateId, isLoggedIn, isAuthor, fileUpload, controller.update)
+router.delete('/:id', validateId, isLoggedIn, isAuthor, controller.delete)
 
 // export
 module.exports = router

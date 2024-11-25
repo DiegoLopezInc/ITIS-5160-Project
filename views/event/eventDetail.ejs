@@ -1,4 +1,10 @@
-<%- include('../partials/header', {title: 'Event Details'}) %>
+<%- include('../partials/header', {title: 'Event Details', extraCSS: ['eventDetail']}) %>
+
+<% if (successMessage) { %>
+    <div class="success-message">
+        <%= successMessage %>
+    </div>
+<% } %>
 
 <div class="title-bar">
     <h2><%= event.organizer %></h2>
@@ -11,14 +17,14 @@
     </div>
 </div>
 
-<section id="event-details">
+<section id="eventDetails">
+    <img src="<%= event.image %>" alt="Event location image">
     <div class="event-info">
         <p><b>Start:</b> <%= new Date(event.startDateTime).toLocaleString() %></p>
         <p><b>End:</b> <%= new Date(event.endDateTime).toLocaleString() %></p>
         <p><b>Location:</b> <%= event.location %></p>
         <p><b><%= event.category.charAt(0).toUpperCase() + event.category.slice(1) %> Event:</b> <%= event.description %></p>
     </div>
-    <img src="<%= event.image %>" alt="Event image">
 </section>
 
 <div id="buttons">

@@ -9,6 +9,8 @@ const eventSchema = new Schema({
     title: { type: String, required: [true, 'title is required'] },
     // Host field creates relationship between User and Event models
     host: { type: Schema.Types.ObjectId, ref: 'User', required: [true, 'Host is required'] },
+    // Category of the event
+    category: { type: String, required: [true, 'Category is required'] },
     // Date and time of the event
     startDateTime: { type: Date, required: [true, 'Start date and time are required'] },
     endDateTime: { type: Date, required: [true, 'End date and time are required'] },
@@ -21,4 +23,4 @@ const eventSchema = new Schema({
 })
 
 // Export the model for use in controllers
-module.exports = mongoose.model('events', eventSchema)
+module.exports = mongoose.model('Event', eventSchema)

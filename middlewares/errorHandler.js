@@ -32,6 +32,7 @@ exports.handleError = (err, req, res, next) => {
         return res.redirect('back');
     }
 
-    // Render the error page
+    // Always set a title for error pages
+    res.locals.title = 'Error ' + err.status;
     res.render('error', { error: err });
-}; 
+};

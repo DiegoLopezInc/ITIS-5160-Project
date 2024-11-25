@@ -1,8 +1,10 @@
 <%- include('./partials/header.ejs')%>
     <main>
         <div class="error-container">
-            <h2>Error <%= error.status %></h2>
+            <h2>Error: <%= error.status %></h2>
             <p><%= error.message %></p>
+            <a href="javascript:history.back()" class="btn">Go Back</a>
+            <a href="/" class="btn">Home</a>
         </div>
     </main>
 <%- include('./partials/footer.ejs')%>

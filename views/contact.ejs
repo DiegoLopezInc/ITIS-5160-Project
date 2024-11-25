@@ -1,37 +1,29 @@
-<%- include('./partials/header', {title: 'Contact Us'}) %>
-
-<h1>Contact Us</h1>
-
-<section id="contact-info">
-    <h2>Get in Touch</h2>
-
-    <p>We'd love to hear from you! Here's how you can reach us:</p>
-
-    <ul>
-        <li>Email: <a href="mailto:colorstackunccharlotte@gmail.com">colorstackunccharlotte@gmail.com</a></li>
-        <li>Phone: (980) 216-6651</li>
-        <li>Address: 9201 University City Blvd, Charlotte, NC 28223</li>
-    </ul>
-</section>
-
-<section id="contact-form">
-    <h2>Send Us a Message</h2>
-
-    <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" required>
-
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
-
-        <button type="submit">Send Message</button>
-    </form>
-</section>
-
-<%- include('./partials/footer') %>
+<%- include('./partials/header.ejs') %>
+<div class="content-container">
+    <h1>Contact Us</h1>
+    <div class="contact-content">
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <p>Have questions about ColorStack UNC Charlotte? We'd love to hear from you!</p>
+            
+            <div class="contact-details">
+                <h3>Email</h3>
+                <p>colorstack@uncc.edu</p>
+                
+                <h3>Location</h3>
+                <p>University of North Carolina at Charlotte</p>
+                <p>9201 University City Blvd</p>
+                <p>Charlotte, NC 28223</p>
+                
+                <h3>Social Media</h3>
+                <p>Follow us on:</p>
+                <ul class="social-links">
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('./partials/footer.ejs') %>

@@ -2,13 +2,6 @@
 
 <div class="profile-container">
     <h2>Welcome, <%= user.firstName %></h2>
-    <% if (successMessages && successMessages.length > 0) { %>
-        <div class="success-messages">
-            <% successMessages.forEach(message => { %>
-                <p class="success"><%= message %></p>
-            <% }); %>
-        </div>
-    <% } %>
     <div class="user-events">
         <h3>Your Events</h3>
         <% if(events && events.length) { %>
@@ -16,7 +9,6 @@
                 <% events.forEach(event => { %>
                     <div class="event-card">
                         <h4><%= event.title %></h4>
-                        <p>Category: <%= event.category %></p>
                         <p>Date: <%= event.startDateTime.toLocaleDateString() %></p>
                         <div class="event-actions">
                             <a href="/events/<%= event._id %>" class="btn">View</a>
@@ -31,7 +23,6 @@
         <% } else { %>
             <p>You haven't created any events yet.</p>
         <% } %>
-        <a href="/events/new" class="btn create-event">Create New Event</a>
     </div>
 </div>
 

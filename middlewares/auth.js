@@ -2,6 +2,7 @@ const Event = require('../models/event');
 
 //check if user is a guest
 exports.isGuest = (req, res, next) => {
+    console.log('isGuest check - Session:', req.session);
     if (!req.session.user) {
         return next();
     } else {
@@ -12,6 +13,7 @@ exports.isGuest = (req, res, next) => {
 
 //check if user is authenticated
 exports.isLoggedIn = (req, res, next) => {
+    console.log('isLoggedIn check - Session:', req.session);
     if (req.session.user) {
         return next();
     } else {
@@ -22,6 +24,7 @@ exports.isLoggedIn = (req, res, next) => {
 
 //check if user is the author of the event
 exports.isAuthor = async (req, res, next) => {
+    console.log('isAuthor check - Session:', req.session);
     try {
         let event = await Event.findById(req.params.id);
         if (event) {
@@ -36,4 +39,4 @@ exports.isAuthor = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}; 
+};

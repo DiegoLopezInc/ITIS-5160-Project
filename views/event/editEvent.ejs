@@ -1,36 +1,150 @@
 <%- include('../partials/header.ejs', { title: 'Edit Event - ColorStack UNC Charlotte', extraCSS: ['eventForm'] }) %>
-<h1>Edit Event: <%= event.title %></h1>
+<%
+// Helper function to safely format dates
+function formatDate(dateObj) {
+    try {
+        if (!dateObj) return '';
+        const date = new Date(dateObj);
+        if (isNaN(date.getTime())) return '';
+        return date.toISOString().split('T')[0];
+    } catch (e) {
+        console.error('Error formatting date:', e);
+        return '';
+    }
+}
 
-<form class="connection-form" action="/events/<%= event.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+// Helper function to safely format times
+function formatTime(dateObj) {
+    try {
+        if (!dateObj) return '';
+        const date = new Date(dateObj);
+        if (isNaN(date.getTime())) return '';
+        return date.toTimeString().slice(0, 5);
+    } catch (e) {
+        console.error('Error formatting time:', e);
+        return '';
+    }
+}
+%>
+<div class="form-container">
+    <h2>Edit Event: <%= event && event.title ? event.title : 'Untitled Event' %></h2>
+    <% if (errorMessages && errorMessages.length > 0) { %>
+        <div class="error-messages">
+            <% errorMessages.forEach(message => { %>
+                <p class="error"><%= message %></p>
+            <% }); %>
+        </div>
+    <% } %>
+    <form class="connection-form" action="/events/<%= event && event._id ? event._id : '' %>?_method=PUT" method="POST">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter the title of the event" value="<%= event && event.title ? event.title : '' %>" required>
+        </div>
 
-    <label class="grid1" for="title">Title</label>
-    <input class="grid2" type="text" id="title" name="title" placeholder="Enter the title of the event" value="<%= event.title %>" required><br>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="">Select a category</option>
+                <% if (Array.isArray(categories)) { %>
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category.toLowerCase() %>" 
+                            <%= (event && event.category && event.category.toLowerCase() === category.toLowerCase()) ? 'selected' : '' %>>
+                            <%= category %>
+                        </option>
+                    <% }); %>
+                <% } %>
+            </select>
+        </div>
 
-    <label class="grid1" for="category">Category</label>
-    <input class="grid2" type="text" id="category" name="category" placeholder="Enter the category of the event" value="<%= event.category %>" required><br>
+        <div class="form-group">
+            <label for="description">Details</label>
+            <textarea id="description" name="description" placeholder="Enter a short description of the event" required><%= event && event.description ? event.description : '' %></textarea>
+        </div>
 
-    <label class="grid1" for="organizer">Host</label>
-    <input class="grid2" type="text" id="organizer" name="organizer" placeholder="Enter the name of the event host" value="<%= event.organizer %>" required><br>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <select id="location" name="location" onchange="updateImage()" required>
+                <option value="">Select a location</option>
+                <% if (Array.isArray(locations)) { %>
+                    <% locations.forEach(location => { %>
+                        <option value="<%= location.name %>" 
+                                data-image="<%= location.image %>"
+                                <%= (event && event.location && event.location === location.name) ? 'selected' : '' %>>
+                            <%= location.name %>
+                        </option>
+                    <% }); %>
+                <% } %>
+            </select>
+        </div>
 
-    <label class="grid1" for="description">Details</label>
-    <textarea class="grid2" id="description" name="description" placeholder="Enter a short description of the event" required><%= event.description %></textarea><br>
+        <input type="hidden" id="image" name="image" value="<%= event && event.image ? event.image : '' %>" required>
 
-    <label class="grid1" for="location">Location</label>
-    <input class="grid2" type="text" id="location" name="location" placeholder="Enter the location of the event" value="<%= event.location %>" required><br>
+        <div id="imagePreview" style="display: <%= event && event.image ? 'block' : 'none' %>;">
+            <img id="locationImage" src="<%= event && event.image ? event.image : '' %>" alt="Location Preview">
+        </div>
 
-    <label class="grid1" for="when">Date</label>
-    <input class="grid2" type="date" id="when" name="when" placeholder="Enter when the event will be held" value="<%= event.startDateTime.substring(0, event.startDateTime.indexOf('T')) %>" required><br>
+        <div class="form-group">
+            <label for="when">Date</label>
+            <input type="date" id="when" name="when" value="<%= event && event.startDateTime ? formatDate(event.startDateTime) : '' %>" required>
+        </div>
 
-    <label class="grid1" for="start">Start Time</label>
-    <input class="grid2" type="time" id="start" name="start" placeholder="Enter the starting time for the event" value="<%= event.startDateTime.substring(11, 16) %>" required><br>
+        <div class="form-group">
+            <label for="start">Start Time</label>
+            <input type="time" id="start" name="start" value="<%= event && event.startDateTime ? formatTime(event.startDateTime) : '' %>" required>
+        </div>
 
-    <label class="grid1" for="end">End Time</label>
-    <input class="grid2" type="time" id="end" name="end" placeholder="Enter the ending time for the event" value="<%= event.endDateTime.substring(11, 16) %>" required><br>
+        <div class="form-group">
+            <label for="end">End Time</label>
+            <input type="time" id="end" name="end" value="<%= event && event.endDateTime ? formatTime(event.endDateTime) : '' %>" required>
+        </div>
 
-    <label class="grid1" for="image">Image</label>
-    <input class="grid2" type="file" id="image" name="image" placeholder="Upload an image for the event" value="<%= event.image %>"><br>
+        <button type="submit">Update Event</button>
+    </form>
+</div>
 
-    <button type="submit">Create Event</button>
+<script>
+function updateImage() {
+    try {
+        const select = document.getElementById('location');
+        if (!select) return;
 
-</form>
+        const selectedOption = select.options[select.selectedIndex];
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const locationImage = document.getElementById('locationImage');
+
+        if (!imageInput || !imagePreview || !locationImage) return;
+
+        if (selectedOption && selectedOption.value) {
+            const imagePath = selectedOption.getAttribute('data-image');
+            if (imagePath) {
+                imageInput.value = imagePath;
+                locationImage.src = imagePath;
+                imagePreview.style.display = 'block';
+            } else {
+                imageInput.value = '';
+                imagePreview.style.display = 'none';
+            }
+        } else {
+            imageInput.value = '';
+            imagePreview.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error in updateImage:', error);
+    }
+}
+
+// Initialize the image on page load
+window.onload = function() {
+    try {
+        const locationSelect = document.getElementById('location');
+        if (locationSelect && locationSelect.value) {
+            updateImage();
+        }
+    } catch (error) {
+        console.error('Error in window.onload:', error);
+    }
+};
+</script>
+
 <%- include('../partials/footer.ejs') %>

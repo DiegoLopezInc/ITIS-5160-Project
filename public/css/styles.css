@@ -9,6 +9,47 @@ body {
   flex-direction: column;
 }
 
+/* Main content wrapper */
+main {
+  flex: 1 0 auto; /* This makes main content take up available space */
+  padding: 20px;
+}
+
+/* Footer styles */
+footer {
+  flex-shrink: 0;
+  background-color: #005035;
+  color: #FFFFFF;
+  padding: 15px 0;
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer p {
+  margin-left: 15px;
+}
+
+footer ul {
+  display: flex;
+  gap: 20px;
+  margin-right: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+footer a {
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #A49665;
+}
+
 /* logo styles */
 #logo {
   height: 100px;
@@ -19,377 +60,149 @@ body {
 
 /* navigation styles */
 #user-navigation {
-  background-color: #A49665;
-  color: white;
-  padding: 10px 20px;
-  text-align: right;
+  background-color: #005035;
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-#user-navigation a {
-  background-color: #A49665;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 15px 15px;
-  margin-top: 20px;
-  margin-right: 0.50em;
-  text-decoration: none;
-  border-radius: 0.50em;
-}
-
-#user-navigation a#login {
-  background-color: #A49665;
-  border-color: #FFFFFF;
-  border-width: 1px;
-  border-style: solid;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 15px 15px;
-  margin-top: 20px;
-  text-decoration: none;
-}
-
-#user-navigation a#login:hover {
-  background-color: #FFFFFF;
-  color: white;
-}
-
-#user-navigation a#signup {
-  background-color: #FFFFFF;
-  color: white;
-  text-align: center;
-  padding: 15px 15px;
-  margin-top: 20px;
-  text-decoration: none;
-}
-
-#user-navigation {
-  text-align: right;
-}
-
-#main-navigation a {
-  color: white;
-  margin-left: 15px;
-  text-decoration: none;
-}
-
-#main-navigation {
-  background-color: #FFFFFF;
-  text-align: left;
-  padding: 15px 20px;
-}
-
-/* Header styles */
-header {
-  background-color: #005035;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-/* main sytles*/
-main {
-  flex: 1;
-  padding: 20px;
-  /* this is so so */
-  min-height: calc(100vh - 19.4em);
-}
-
-h1,
-h2 {
-  color: #005035;
-}
-
-/* footer styles */
-footer {
-  background-color: #005035;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 15px 0;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-}
-
-footer p {
-  margin-left: 15px;
-}
-
-footer a {
-  color: #FFFFFF;
-  margin-left: 15px;
-  text-decoration: none;
-}
-
-footer ul {
-  margin-left: auto;
-  margin-right: 1.50em;
-}
-
-/* Navigation styles */
 .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
 }
 
 .nav-links li a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.nav-links li a:hover {
-    background-color: #A49665;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 /* Special styling for Sign up and Login buttons */
-.nav-links li:nth-last-child(2) a {  /* Sign up */
-    background-color: #FFFFFF;
-    color: white;
+.nav-links li a#signup {
+  background-color: #A49665;
+  color: white;
+  border: 2px solid #A49665;
 }
 
-.nav-links li:last-child a {  /* Login */
-    border: 1px solid #FFFFFF;
-    color: #FFFFFF;
+.nav-links li a#login {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
 }
 
-.nav-links li:last-child a:hover {
-    background-color: #FFFFFF;
-    color: white;
+.nav-links li a#signup:hover,
+.nav-links li a#login:hover {
+  background-color: white;
+  color: #005035;
+  border-color: white;
 }
 
-.error-container {
-    text-align: center;
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 600px;
+/* Landing page specific styles */
+.home-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  text-align: center;
 }
 
-.error-container h2 {
-    color: #dc3545;
-    margin-bottom: 1rem;
+.home-content {
+  margin-top: 40px;
 }
 
-.error-container p {
-    color: #666;
-    font-size: 1.1rem;
-}
-
-/* Form styles */
-.form-container {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #005035;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-/* Message styles */
-.error-messages, .success-messages {
-    margin: 1rem 0;
-    padding: 1rem;
-    border-radius: 4px;
-}
-
-.error-messages {
-    background-color: #ffebee;
-    color: #c62828;
-}
-
-.success-messages {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-}
-
-/* Profile styles */
-.profile-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-}
-
-.events-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    margin: 2rem 0;
-}
-
-.event-card {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-}
-
-.event-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 30px 0;
 }
 
 .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    color: white;
-    background-color: #005035;
-}
-
-.btn.delete {
-    background-color: #dc3545;
-}
-
-.inline-form {
-    display: inline;
-}
-
-/* Add these to your existing styles.css */
-.event-detail {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.event-detail img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin: 1rem 0;
-}
-
-.event-detail p {
-    margin: 0.5rem 0;
-    line-height: 1.6;
-}
-
-.event-detail strong {
-    color: #005035;
-}
-
-.event-detail .btn {
-    margin-top: 1rem;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .events-list {
-        grid-template-columns: 1fr;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .form-container {
-        margin: 1rem;
-        padding: 1rem;
-    }
-
-    #logo {
-        height: 60px;
-    }
-}
-
-/* Improved Form Styling */
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #005035;
-    box-shadow: 0 0 5px rgba(0, 80, 53, 0.2);
-}
-
-/* Password Strength Indicator */
-.password-strength {
-    margin-top: 0.5rem;
-    padding: 0.25rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
-}
-
-.strength-1 { background-color: #ffebee; color: #c62828; }
-.strength-2 { background-color: #fff3e0; color: #ef6c00; }
-.strength-3 { background-color: #f1f8e9; color: #558b2f; }
-.strength-4 { background-color: #e8f5e9; color: #2e7d32; }
-.strength-5 { background-color: #e0f2f1; color: #00695c; }
-
-/* Loading States */
-.loading {
-    position: relative;
-    opacity: 0.7;
-    pointer-events: none;
-}
-
-.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #005035;
-    border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* Improved Button States */
-.btn {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #005035;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  border: 2px solid #005035;
+  font-weight: 500;
+  margin: 10px;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background-color: white;
+  color: #005035;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.btn:active {
-    transform: translateY(0);
+/* Rest of your existing styles... */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links {
+    gap: 10px;
+  }
+
+  #user-navigation {
+    padding: 10px 15px;
+  }
 }
 
-/* Improved Card Hover Effects */
-.event-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Add these to your existing styles */
+.content-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-.event-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+.about-content, .contact-content {
+    margin-top: 30px;
+    line-height: 1.6;
+}
+
+.about-content ul {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+.contact-details {
+    margin-top: 30px;
+}
+
+.contact-details h3 {
+    color: #005035;
+    margin-top: 20px;
+}
+
+.social-links {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.social-links li {
+    margin: 5px 0;
+}
+
+.social-links a {
+    color: #005035;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #A49665;
 }
