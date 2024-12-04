@@ -24,5 +24,8 @@ router.get('/:id/edit', validateId, isLoggedIn, isAuthor, controller.edit)
 router.put('/:id', validateId, isLoggedIn, isAuthor, fileUpload, controller.update)
 router.delete('/:id', validateId, isLoggedIn, isAuthor, controller.delete)
 
+// RSVP route
+router.post('/:id/rsvp', validateId, isLoggedIn, controller.createRsvp)
+
 // export
 module.exports = router

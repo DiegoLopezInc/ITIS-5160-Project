@@ -25,17 +25,40 @@
             </p>
             <p><strong>Location:</strong> <%= event.location %></p>
             <p class="eventDescription"><strong>Description:</strong> <%= event.description %></p>
+            <p><strong>Attending:</strong> <%= rsvpCount %> people</p>
         </div>
         
-        <% if(user && user.id === event.host._id.toString()) { %>
-            <div class="eventActions">
-                <a href="/events/<%= event._id %>/edit" class="btn">Edit Event</a>
-                <form action="/events/<%= event._id %>?_method=DELETE" method="POST" class="inlineForm">
-                    <button type="submit" class="btn btnDelete" onclick="return confirm('Are you sure you want to delete this event?')">
-                        Delete Event
-                    </button>
-                </form>
-            </div>
+        <% if(user) { %>
+            <% if(user.id !== event.host._id.toString()) { %>
+                <div class="rsvpActions">
+                    <form action="/events/<%= event._id %>/rsvp" method="POST" class="rsvpForm">
+                        <button type="submit" name="status" value="YES" 
+                            class="btn <%= userRsvp && userRsvp.status === 'YES' ? 'active' : '' %>">
+                            Going
+                        </button>
+                        <button type="submit" name="status" value="MAYBE" 
+                            class="btn <%= userRsvp && userRsvp.status === 'MAYBE' ? 'active' : '' %>">
+                            Maybe
+                        </button>
+                        <button type="submit" name="status" value="NO" 
+                            class="btn <%= userRsvp && userRsvp.status === 'NO' ? 'active' : '' %>">
+                            Not Going
+                        </button>
+                    </form>
+                </div>
+            <% } %>
+            <% if(user.id === event.host._id.toString()) { %>
+                <div class="eventActions">
+                    <a href="/events/<%= event._id %>/edit" class="btn">Edit Event</a>
+                    <form action="/events/<%= event._id %>?_method=DELETE" method="POST" class="inlineForm">
+                        <button type="submit" class="btn btnDelete" onclick="return confirm('Are you sure you want to delete this event?')">
+                            Delete Event
+                        </button>
+                    </form>
+                </div>
+            <% } %>
+        <% } else { %>
+            <p class="loginPrompt">Please <a href="/users/login">login</a> to RSVP for this event.</p>
         <% } %>
         
         <a href="/events" class="btn btnBack">Back to Events</a>

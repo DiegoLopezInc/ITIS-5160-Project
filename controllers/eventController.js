@@ -2,7 +2,8 @@
 // This file handles the business logic between Model and View
 
 // Import the Model
-const model = require('../models/event')
+const model = require('../models/event');
+const RSVP = require('../models/rsvp');
 
 // Helper function to get image path based on location
 function getImagePathForLocation(location) {
@@ -127,19 +128,30 @@ exports.create = async (req, res, next) => {
 
 exports.show = async (req, res, next) => {
     try {
-        let event = await model.findById(req.params.id).populate('host');
-        if(event) {
-            res.render('./event/show', {
-                title: 'Event Details',
-                event
+        let id = req.params.id;
+        let event = await model.findById(id).populate('host', 'firstName lastName');
+        if (event) {
+            // Get RSVP count for 'YES' responses
+            const rsvpCount = await RSVP.countDocuments({ 
+                event: id, 
+                status: 'YES' 
             });
-        } else {
-            let err = new Error('Cannot find event with id ' + req.params.id);
-            err.status = 404;
-            next(err);
+
+            // Get user's RSVP if they're logged in
+            let userRsvp = null;
+            if (req.session.user) {
+                userRsvp = await RSVP.findOne({
+                    event: id,
+                    user: req.session.user.id
+                });
+            }
+
+            return res.render('./event/show', { event, rsvpCount, userRsvp });
         }
-    } catch(err) {
-        console.error('Error fetching event:', err);
+        let err = new Error('Cannot find a event with id ' + id);
+        err.status = 404;
+        next(err);
+    } catch (err) {
         next(err);
     }
 };
@@ -238,19 +250,64 @@ exports.update = async (req, res, next) => {
     }
 };
 
+exports.createRsvp = async (req, res, next) => {
+    try {
+        const eventId = req.params.id;
+        const userId = req.session.user.id;  // Get just the ID
+        const { status } = req.body;
+
+        // Check if user is logged in
+        if (!userId) {
+            req.flash('error', 'Please login to RSVP');
+            return res.redirect('/users/login');
+        }
+
+        // Get event details
+        const event = await model.findById(eventId);
+        if (!event) {
+            let err = new Error('Cannot find event with id ' + eventId);
+            err.status = 404;
+            return next(err);
+        }
+
+        // Check if user is event host
+        if (event.host.equals(userId)) {
+            let err = new Error('Cannot RSVP to your own event');
+            err.status = 401;
+            return next(err);
+        }
+
+        // Create or update RSVP
+        await RSVP.findOneAndUpdate(
+            { user: userId, event: eventId },
+            { status },
+            { upsert: true, new: true, runValidators: true }
+        );
+
+        req.flash('success', 'RSVP updated successfully');
+        res.redirect(`/events/${eventId}`);
+    } catch (err) {
+        next(err);
+    }
+};
+
 exports.delete = async (req, res, next) => {
     try {
-        let event = await model.findByIdAndDelete(req.params.id);
-        if(event) {
-            req.flash('success', 'Event deleted successfully');
+        let event = await model.findById(req.params.id);
+        if (event) {
+            // Delete associated RSVPs first
+            await RSVP.deleteMany({ event: req.params.id });
+            
+            // Then delete the event
+            await model.findByIdAndDelete(req.params.id);
+            req.flash('success', 'Event has been deleted successfully');
             res.redirect('/events');
         } else {
-            let err = new Error('Cannot find event with id ' + req.params.id);
+            let err = new Error('Cannot find a event with id ' + req.params.id);
             err.status = 404;
-            next(err);
+            return next(err);
         }
-    } catch(err) {
-        console.error('Error deleting event:', err);
+    } catch (err) {
         next(err);
     }
 };

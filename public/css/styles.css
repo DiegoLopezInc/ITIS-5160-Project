@@ -206,3 +206,66 @@ footer a:hover {
 .social-links a:hover {
     color: #A49665;
 }
+
+/* RSVP styles in profile */
+.user-rsvps {
+    margin-top: 3rem;
+}
+
+.rsvps-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.rsvp-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.rsvp-status {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: bold;
+    border-bottom-left-radius: 8px;
+}
+
+.rsvp-status.yes {
+    background-color: #28a745;
+}
+
+.rsvp-status.maybe {
+    background-color: #ffc107;
+}
+
+.rsvp-status.no {
+    background-color: #dc3545;
+}
+
+.rsvp-details {
+    margin-top: 1rem;
+}
+
+.rsvp-details h4 {
+    color: #005035;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.rsvp-details p {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+.rsvp-actions {
+    margin-top: 1.5rem;
+    text-align: right;
+}

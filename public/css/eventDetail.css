@@ -255,3 +255,50 @@
 #cancel:hover {
     background: #c82333;
 }
+
+/* RSVP-specific styles */
+.rsvpActions {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.rsvpForm {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.rsvpForm button {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #005035;
+    background-color: white;
+    color: #005035;
+    transition: all 0.3s ease;
+}
+
+.rsvpForm button:hover {
+    background-color: #005035;
+    color: white;
+}
+
+.rsvpForm button.active {
+    background-color: #005035;
+    color: white;
+}
+
+.loginPrompt {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.loginPrompt a {
+    color: #005035;
+    text-decoration: underline;
+}
+
+.loginPrompt a:hover {
+    color: #003824;
+}

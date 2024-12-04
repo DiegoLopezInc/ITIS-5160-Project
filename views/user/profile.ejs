@@ -2,6 +2,7 @@
 
 <div class="profile-container">
     <h2>Welcome, <%= user.firstName %></h2>
+    
     <div class="user-events">
         <h3>Your Events</h3>
         <% if(events && events.length) { %>
@@ -24,6 +25,34 @@
             <p>You haven't created any events yet.</p>
         <% } %>
     </div>
+
+    <div class="user-rsvps">
+        <h3>Your RSVPs</h3>
+        <% if(rsvps && rsvps.length) { %>
+            <div class="rsvps-list">
+                <% rsvps.forEach(rsvp => { %>
+                    <% if(rsvp.event) { %>
+                        <div class="rsvp-card">
+                            <div class="rsvp-status <%= rsvp.status.toLowerCase() %>">
+                                <%= rsvp.status %>
+                            </div>
+                            <div class="rsvp-details">
+                                <h4><%= rsvp.event.title %></h4>
+                                <p>Host: <%= rsvp.event.host.firstName %> <%= rsvp.event.host.lastName %></p>
+                                <p>Date: <%= rsvp.event.startDateTime.toLocaleDateString() %></p>
+                                <p>Location: <%= rsvp.event.location %></p>
+                            </div>
+                            <div class="rsvp-actions">
+                                <a href="/events/<%= rsvp.event._id %>" class="btn">View Event</a>
+                            </div>
+                        </div>
+                    <% } %>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>You haven't RSVP'd to any events yet.</p>
+        <% } %>
+    </div>
 </div>
 
-<%- include('../partials/footer.ejs') %> 
+<%- include('../partials/footer.ejs') %>

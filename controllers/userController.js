@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Event = require('../models/event');
+const RSVP = require('../models/rsvp');
 const bcrypt = require('bcrypt');
 
 exports.new = (req, res) => {
@@ -63,9 +64,23 @@ exports.login = async (req, res, next) => {
 
 exports.profile = async (req, res, next) => {
     try {
-        let user = await User.findById(req.session.user.id);
-        let events = await Event.find({host: user._id});
-        return res.render('./user/profile', { title: 'Profile', user, events });
+        let id = req.session.user.id;
+        let user = await User.findById(id);
+        let events = await Event.find({ host: id });
+        
+        // Get user's RSVPs with populated event details
+        let rsvps = await RSVP.find({ user: id })
+            .populate({
+                path: 'event',
+                select: 'title startDateTime location',
+                populate: {
+                    path: 'host',
+                    select: 'firstName lastName'
+                }
+            })
+            .sort({ 'event.startDateTime': 1 }); // Sort by event date
+
+        return res.render('./user/profile', { user, events, rsvps });
     } catch(err) {
         next(err);
     }
